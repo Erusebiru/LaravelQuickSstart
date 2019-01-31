@@ -18,10 +18,9 @@ use Illuminate\Http\Request;
  * Show Task Dashboard
  */
 Route::get('/', function () {
-    $tasks = Task::orderBy('created_at', 'asc')->get();
-    return view('tasks', [
-        'tasks' => $tasks
-    ]);
+    $inactivas = Task::orderBy('id', 'desc')->get()->where('estado','0');
+    $activas = Task::orderBy('id', 'desc')->get()->where('estado','1');
+    return view('tasks', ['inactivas' => $inactivas,'activas' => $activas]);
 });
 
 /**
@@ -40,6 +39,7 @@ Route::post('/task', function (Request $request) {
 
     $task = new Task;
     $task->name = $request->name;
+    $task->estado = 0;
     $task->save();
 
     return redirect('/');
@@ -52,6 +52,21 @@ Route::post('/task', function (Request $request) {
  */
 Route::delete('/task/{task}', function (Task $task) {
     $task->delete();
+
+    return redirect('/');
+});
+
+/**
+ * Update Task
+ */
+Route::put('/task/{task}', function (Task $task) {
+    if($task->estado == 1){
+        $task->estado = 0;
+    }else{
+        $task->estado = 1;
+    }
+    
+    $task->save();
 
     return redirect('/');
 });

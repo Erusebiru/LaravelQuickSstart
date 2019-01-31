@@ -33,49 +33,79 @@
     </div>
     <br>
     <!-- Current Tasks -->
-    @if (count($tasks) > 0)
+    @if (count($activas) > 0 || count($inactivas) > 0)
         <div class="panel panel-default">
-            <div class="panel-heading">
-                Current Tasks
-            </div>
-
             <div class="panel-body">
                 <table class="table table-striped task-table">
-
                     <!-- Table Headings -->
                     <thead>
                         <th>Task</th>
+                        <th>Estado</th>
                         <th>&nbsp;</th>
                     </thead>
-
-                    <!-- Table Body -->
                     <tbody>
-                        @foreach ($tasks as $task)
-                            <tr>
-                                <!-- Task Name -->
-                                <td class="table-text">
-                                    <div>{{ $task->name }}</div>
-                                </td>
-
-                                <td>
-                                
-                                    <!-- Delete Button -->
-                                    <td>
-                                        <form action="{{ url('task/'.$task->id) }}" method="POST">
-                                            {{ csrf_field() }}
-                                            {{ method_field('DELETE') }}
-
-                                            <button type="submit" class="btn btn-danger">
-                                                <i class="fa fa-trash"></i> Delete
-                                            </button>
-                                        </form>
-                                    </td>
-                                
-                                </td>
-                            </tr>
+                    <tr><td colspan="4" style="text-align: center;"><h3>ACTIVAS</h3></td></tr>
+                    @foreach ($activas as $task)
+                        <tr>
+                            <td class="table-text">
+                                <div>{{ $task->name }}</div>
+                            </td>
+                            <td class="table-text">
+                                <div>Activo</div>
+                            </td>
+                            
+                            <!-- Delete Button -->
+                            <td>
+                                <form action="{{ url('task/'.$task->id) }}" method="POST">
+                                    {{ csrf_field() }}
+                                    {{ method_field('DELETE') }}
+                                    <button type="submit" class="btn btn-danger">
+                                        <i class="fa fa-trash"></i> Delete
+                                    </button>
+                                </form>
+                                <form action="{{ url('task/'.$task->id) }}" method="POST">
+                                {{ csrf_field() }}
+                                    {{ method_field('PUT') }}
+                                    <button type="submit" class="btn btn-danger">
+                                        <i class="fa fa-trash"></i> Update
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        
+                    @endforeach
+                    <tr><td colspan="4" style="text-align: center;"><h3>INACTIVAS</h3></td></tr>
+                    @foreach ($inactivas as $task)
+                        <tr>
+                            <td class="table-text">
+                                <div>{{ $task->name }}</div>
+                            </td>
+                            <td class="table-text">
+                                <div>Inactivo</div>
+                            </td>
+                            
+                            <!-- Delete Button -->
+                            <td>
+                                <form action="{{ url('task/'.$task->id) }}" method="POST">
+                                    {{ csrf_field() }}
+                                    {{ method_field('DELETE') }}
+                                    <button type="submit" class="btn btn-danger">
+                                        <i class="fa fa-trash"></i> Delete
+                                    </button>
+                                </form>
+                                <form action="{{ url('task/'.$task->id) }}" method="POST">
+                                {{ csrf_field() }}
+                                    {{ method_field('PUT') }}
+                                    <button type="submit" class="btn btn-danger">
+                                        <i class="fa fa-trash"></i> Update
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                            
                         @endforeach
                     </tbody>
-                </table>
+                </table> 
             </div>
         </div>
     @endif
